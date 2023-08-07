@@ -1,7 +1,7 @@
 import os
+from io import BytesIO
 
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, FileResponse
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -35,13 +35,15 @@ class FileUploadView(APIView):
                 file_obj)
             data = output_to_excel(df)
 
-            response = HttpResponse(
-                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            )
-            response['Content-Disposition'] = f'attachment; filename=output.xlsx'
-            with pd.ExcelWriter('output.xlsx') as writer:
+            buffer = BytesIO()
+            with pd.ExcelWriter(buffer) as writer:
                 data.to_excel(writer, sheet_name='Sheet1', index=False)
+            buffer.seek(0)
 
-            return Response({'message': file_obj.name}, status=200)
+            response = FileResponse(buffer,
+                                    content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename=output.xlsx'
+
+            return response
         except Exception as e:
             return Response({'error': str(e)}, status=400)

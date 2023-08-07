@@ -58,6 +58,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'content-disposition',
+]
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
