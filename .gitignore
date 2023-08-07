@@ -2,9 +2,22 @@
 
 .idea
 .vscode
-.env
 .contentlayer
+
+*.log
+*.pyc
+__pycache__
 db.sqlite3
+media
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
 # dependencies
 /node_modules
