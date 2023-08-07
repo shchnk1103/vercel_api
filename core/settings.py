@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-ks5dhe2tfpobqp%2d87-c3v-@r6e@!*n*u$y%#(msxwq8o0(&6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'https://double-shy0-jxlxyt0to-shchnk1103.vercel.app']
 
 # Application definition
 
@@ -56,6 +56,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "https://double-shy0-n.vercel.app",
     "http://localhost:3000",
+    "https://double-shy0-jxlxyt0to-shchnk1103.vercel.app",
 ]
 
 CORS_ALLOW_HEADERS = [
