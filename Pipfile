@@ -9,6 +9,8 @@ djangorestframework = "*"
 pandas = "*"
 openpyxl = "*"
 django-cors-headers = "*"
+markdown = "*"
+django-filter = "*"
 
 [dev-packages]
 

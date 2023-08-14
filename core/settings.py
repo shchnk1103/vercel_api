@@ -35,9 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # Custom apps
     'file_upload',
-
+    'pokemon_sleep',
+    # Third-party apps
     'rest_framework',
     'corsheaders',
 ]

@@ -1,22 +1,19 @@
 import os
 from io import BytesIO
 
-from django.http import HttpResponse, FileResponse
+import pandas as pd
+from django.http import FileResponse
+from rest_framework import viewsets
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
-from rest_framework.views import APIView
-import pandas as pd
 
 from file_upload.utils.DataProcessing import output_to_excel
 
 
-class FileUploadView(APIView):
-    """
-    API endpoint that allows users to upload a file.
-    """
+class FileUploadViewSet(viewsets.ViewSet):
     parser_classes = (FileUploadParser,)
 
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         file_obj = request.FILES.get('file')
 
         if not file_obj:
