@@ -7,7 +7,7 @@ from rest_framework import viewsets
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 
-from file_upload.utils.DataProcessing import output_to_excel
+from file_upload.Utils.DataProcessing import output_to_excel
 
 
 class FileUploadViewSet(viewsets.ViewSet):

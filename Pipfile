@@ -11,6 +11,11 @@ openpyxl = "*"
 django-cors-headers = "*"
 markdown = "*"
 django-filter = "*"
+pymongo = "*"
+certifi = "*"
+requests = "*"
+beautifulsoup4 = "*"
+selenium = "*"
 
 [dev-packages]
 
