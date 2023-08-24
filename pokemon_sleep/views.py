@@ -1,4 +1,5 @@
-import os
+import logging
+import os.path
 import tempfile
 
 from cnocr import CnOcr
@@ -102,57 +103,63 @@ class PokemonImageUploadViewSet(viewsets.ViewSet):
             uploaded_image = request.FILES.get('image')
             if uploaded_image:
                 # Save the uploaded image to a temporary file
-                with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-                    temp_file.write(uploaded_image.read())
-                    temp_file_path = temp_file.name
+                with tempfile.TemporaryDirectory() as temp_dir:
+                    temp_file_path = os.path.join(temp_dir, 'temp_image.jpg')
+                    try:
+                        with open(temp_file_path, 'wb') as temp_file:
+                            temp_file.write(uploaded_image.read())
+                    except Exception as e:
+                        logging.error(f"Failed to write image to temporary file. Error: {str(e)}")
 
-                # Perform processing on the temporary image file
-                cn_ocr = CnOcr()
-                img = cn_ocr.ocr(temp_file_path)
+                    if os.path.exists(temp_file_path):
+                        logging.info(f"Temporary file exists. Path: {temp_file_path}")
+                    else:
+                        logging.info("Temporary file does not exist.")
 
-                pokemon_names = [pokemon['name'] for pokemon in list(pokemon_collection.find())]
-                pokemon_characters = [pokemon['title'] for pokemon in list(pokemon_character_collection.find())]
-                pokemon_secondary_skills = [pokemon['secondary_skill_name'] for pokemon in
-                                            list(pokemon_secondary_skill_collection.find())]
-                closest_match_name = ''
-                closest_match_character = ''
-                closest_match_secondary_skills = []
-                name_matched = False
-                character_matched = False
-                secondary_skill_matched = False
-                for line in img:
-                    if not name_matched:
-                        closest_match_name = get_cloest(line['text'], pokemon_names)
-                        if closest_match_name:
-                            name_matched = True
+                    # Perform processing on the temporary image file
+                    cn_ocr = CnOcr()
+                    img = cn_ocr.ocr(temp_file_path)
 
-                    if not character_matched:
-                        if len(line['text']) <= 4:
-                            closest_match_character = get_cloest(line['text'], pokemon_characters)
-                            if closest_match_character:
-                                character_matched = True
+                    pokemon_names = [pokemon['name'] for pokemon in list(pokemon_collection.find())]
+                    pokemon_characters = [pokemon['title'] for pokemon in list(pokemon_character_collection.find())]
+                    pokemon_secondary_skills = [pokemon['secondary_skill_name'] for pokemon in
+                                                list(pokemon_secondary_skill_collection.find())]
+                    closest_match_name = ''
+                    closest_match_character = ''
+                    closest_match_secondary_skills = []
+                    name_matched = False
+                    character_matched = False
+                    secondary_skill_matched = False
+                    for line in img:
+                        if not name_matched:
+                            closest_match_name = get_cloest(line['text'], pokemon_names)
+                            if closest_match_name:
+                                name_matched = True
 
-                    if not secondary_skill_matched:
-                        closest_match_secondary_skill = get_cloest(line['text'], pokemon_secondary_skills,
-                                                                   threshold=98)
-                        if closest_match_secondary_skill:
-                            closest_match_secondary_skills.append(closest_match_secondary_skill)
-                            if len(closest_match_secondary_skills) == 5:
-                                secondary_skill_matched = True
+                        if not character_matched:
+                            if len(line['text']) <= 4:
+                                closest_match_character = get_cloest(line['text'], pokemon_characters)
+                                if closest_match_character:
+                                    character_matched = True
 
-                    if name_matched and character_matched and secondary_skill_matched:
-                        break
+                        if not secondary_skill_matched:
+                            closest_match_secondary_skill = get_cloest(line['text'], pokemon_secondary_skills,
+                                                                       threshold=98)
+                            if closest_match_secondary_skill:
+                                closest_match_secondary_skills.append(closest_match_secondary_skill)
+                                if len(closest_match_secondary_skills) == 5:
+                                    secondary_skill_matched = True
 
-                # Delete the temporary file
-                os.unlink(temp_file_path)
+                        if name_matched and character_matched and secondary_skill_matched:
+                            break
 
-                return Response({
-                    'message': 'Image uploaded and processed successfully.',
-                    'pokemon_name': closest_match_name,
-                    'pokemon_character': closest_match_character,
-                    'pokemon_secondary_skills': closest_match_secondary_skills
-                },
-                    status=status.HTTP_201_CREATED)
+                    return Response({
+                        'message': 'Image uploaded and processed successfully.',
+                        'pokemon_name': closest_match_name,
+                        'pokemon_character': closest_match_character,
+                        'pokemon_secondary_skills': closest_match_secondary_skills
+                    },
+                        status=status.HTTP_201_CREATED)
             else:
                 return Response({'error': 'No image provided.'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
