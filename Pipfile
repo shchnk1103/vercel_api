@@ -16,6 +16,7 @@ certifi = "*"
 requests = "*"
 beautifulsoup4 = "*"
 selenium = "*"
+cnocr = "*"
 
 [dev-packages]
 
