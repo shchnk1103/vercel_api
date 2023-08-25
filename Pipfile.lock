@@ -245,14 +245,6 @@
             "markers": "python_version >= '3.7'",
             "version": "==8.1.7"
         },
-        "cnocr": {
-            "hashes": [
-                "sha256:a26a1c4ae28554ba2626b2005d3d4d0e7c8fb6c0a8dcaf40c8d03b86d6611fee",
-                "sha256:ac98c8149f5983b8d5dc0bced1f801247ca6e25fd8bc32f9a843702bf309fe3a"
-            ],
-            "index": "pypi",
-            "version": "==2.2.3.2"
-        },
         "cnstd": {
             "hashes": [
                 "sha256:bf37d82667e6335a8311c2726e0091c439d143a7df4bad08362a0d98582db99a",
