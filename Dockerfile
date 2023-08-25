@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y libgl1-mesa-glx
 COPY . /app/
 
 # 安装依赖项
-RUN pip install -r requirements.txt
+RUN pip install -i https://mirrors.aliyun.com/pypi/simple/ --no-cache-dir -r requirements.txt
 
 # 暴露Django应用的端口
 EXPOSE 8000
