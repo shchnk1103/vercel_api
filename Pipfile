@@ -13,10 +13,9 @@ markdown = "*"
 django-filter = "*"
 pymongo = "*"
 certifi = "*"
-requests = "*"
-beautifulsoup4 = "*"
 selenium = "*"
-easyocr = "*"
+cnocr = "*"
+fuzzywuzzy = "*"
 
 [dev-packages]
 
