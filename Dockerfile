@@ -10,8 +10,7 @@ RUN apt-get update && apt-get install -y libgl1-mesa-glx
 COPY . /app/
 
 # 安装依赖项
-RUN pip install pipenv
-RUN pipenv install --system --deploy --ignore-pipfile
+RUN pip install -r requirements.txt
 
 # 暴露Django应用的端口
 EXPOSE 8000
