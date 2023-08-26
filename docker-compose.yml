@@ -1,11 +1,10 @@
 version: '3'
 services:
   django_app:
-    image: vercel_api:latest
-    container_name: vercel_api
+    image: python:3.11
+    volumes:
+      - .:/app
     ports:
       - "8000:8000"
     environment:
       - DJANGO_SETTINGS_MODULE=core.settings
-    volumes:
-      - .:/app
