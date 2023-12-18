@@ -14,10 +14,10 @@ django-filter = "*"
 pymongo = "*"
 certifi = "*"
 selenium = "*"
-cnocr = "*"
 fuzzywuzzy = "*"
+mxnet = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.10.12"
+python_version = "3.12.1"

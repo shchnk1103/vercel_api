@@ -7,7 +7,7 @@ from rest_framework import viewsets
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 
-from file_upload.Utils.DataProcessing import output_to_excel
+from file_upload.Utils.DataProcessing import output_to_excel, sort_df_header
 
 
 class FileUploadViewSet(viewsets.ViewSet):
@@ -28,8 +28,9 @@ class FileUploadViewSet(viewsets.ViewSet):
                             status=400)
 
         try:
-            df = pd.read_excel(file_obj, engine='openpyxl') if file_extension in ['.xlsx', '.xls'] else pd.read_csv(
-                file_obj)
+            df = pd.read_excel(file_obj, engine='openpyxl') if file_extension in [
+                '.xlsx', '.xls'] else pd.read_csv(file_obj)
+
             data = output_to_excel(df)
 
             buffer = BytesIO()

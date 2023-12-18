@@ -18,15 +18,17 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from file_upload.views import FileUploadViewSet
-from pokemon_sleep.views import PokemonSleepViewSet, PokemonChacatorViewSet, PokemonSecondarySkillViewSet, \
-    PokemonImageUploadViewSet
+from pokemon_sleep.views import PokemonSleepViewSet, PokemonChacatorViewSet, PokemonSecondarySkillViewSet
 
 router = DefaultRouter()
 router.register(r'files-upload', FileUploadViewSet, basename='file-upload')
 router.register(r'pokemons', PokemonSleepViewSet, basename='pokemon-sleep')
-router.register(r'pokemon-chacators', PokemonChacatorViewSet, basename='pokemon-chacator')
-router.register(r'pokemon-secondary-skills', PokemonSecondarySkillViewSet, basename='pokemon-secondary-skill')
-router.register(r'pokemon-image-uploads', PokemonImageUploadViewSet, basename='pokemon-image-upload')
+router.register(r'pokemon-chacators', PokemonChacatorViewSet,
+                basename='pokemon-chacator')
+router.register(r'pokemon-secondary-skills',
+                PokemonSecondarySkillViewSet, basename='pokemon-secondary-skill')
+# router.register(r'pokemon-image-uploads',
+#                 PokemonImageUploadViewSet, basename='pokemon-image-upload')
 
 urlpatterns = [
     path('', include(router.urls)),
