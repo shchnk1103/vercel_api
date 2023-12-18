@@ -1,7 +1,3 @@
-import logging
-import os
-import tempfile
-
 from django.http import HttpResponse
 from fuzzywuzzy import fuzz
 from rest_framework import viewsets, filters, status
