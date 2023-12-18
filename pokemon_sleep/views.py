@@ -1,5 +1,4 @@
 from django.http import HttpResponse
-from fuzzywuzzy import fuzz
 from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
