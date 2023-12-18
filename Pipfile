@@ -14,8 +14,6 @@ django-filter = "*"
 pymongo = "*"
 certifi = "*"
 selenium = "*"
-fuzzywuzzy = "*"
-mxnet = "*"
 
 [dev-packages]
 
