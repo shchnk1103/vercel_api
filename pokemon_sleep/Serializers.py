@@ -15,7 +15,7 @@ class PokemonSerializer(serializers.Serializer):
     help_interval = serializers.CharField()
     holding_cap = serializers.CharField()
     friendship_points = serializers.CharField()
-    help_speed = serializers.IntegerField()
+    help_speed = serializers.FloatField()
     help_speed_score = serializers.IntegerField()
     extra_skill_score = serializers.IntegerField()
     panel_total_score = serializers.IntegerField()
@@ -27,7 +27,7 @@ class PokemonSerializer(serializers.Serializer):
         collection = 'Pokemon'
 
 
-class PokemonCharactorSerializer(serializers.Serializer):
+class PokemonCharacterSerializer(serializers.Serializer):
     _id = serializers.CharField()
     title = serializers.CharField()
     plus = serializers.CharField()

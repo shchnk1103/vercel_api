@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
-from pokemon_sleep.Serializers import PokemonSerializer, PokemonCharactorSerializer, PokemonSecondarySkillSerializer
+from pokemon_sleep.Serializers import PokemonSerializer, PokemonCharacterSerializer, PokemonSecondarySkillSerializer
 from pokemon_sleep.Utils.pandas import parse_secondary_skill, parse_excel, parse_character
 from pokemon_sleep.Utils.spiders import start_spider
 from pokemon_sleep.models import pokemon_collection, pokemon_character_collection, pokemon_secondary_skill_collection
@@ -35,6 +35,21 @@ class PokemonSleepViewSet(viewsets.ViewSet):
         serializer = PokemonSerializer(pokemons, many=True)
         return Response(serializer.data)
 
+    def create(self, request):
+        '''
+        添加Pokemon
+        '''
+        pokemon = request.data['pokemon']
+        print(pokemon)
+        if PokemonSerializer(data=pokemon).is_valid(raise_exception=True):
+            try:
+                pokemon_collection.insert_one(pokemon)
+                return Response({'message': 'Pokemon created successfully.'}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response({'error': 'Invalid data.'}, status=status.HTTP_400_BAD_REQUEST)
+
     @action(detail=False, methods=['get'])
     def update_pokemon(self, request):
         pokemon_list = start_spider()
@@ -57,7 +72,7 @@ class PokemonSleepViewSet(viewsets.ViewSet):
         return HttpResponse("Success!")
 
 
-class PokemonChacatorViewSet(viewsets.ViewSet):
+class PokemonCharacterViewSet(viewsets.ViewSet):
     filter_backends = [filters.OrderingFilter, filters.SearchFilter]
 
     def list(self, request):
@@ -70,8 +85,8 @@ class PokemonChacatorViewSet(viewsets.ViewSet):
             query['title'] = {'$regex': name_filter,
                               '$options': 'i'}  # i 代表忽略大小写
 
-        chacators = list(pokemon_character_collection.find(query))
-        serializer = PokemonCharactorSerializer(chacators, many=True)
+        characters = list(pokemon_character_collection.find(query))
+        serializer = PokemonCharacterSerializer(characters, many=True)
 
         return Response(serializer.data)
 
